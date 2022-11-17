@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Todo({todo, toggleTodo}) {
+function Todo({todo, toggleToDoListCheckbox}) {
 
     function handleOnChange(){
-        toggleTodo(todo.id);
+        toggleToDoListCheckbox(todo.id);
     }
 
     return (

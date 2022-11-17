@@ -17,33 +17,43 @@ function App() {
     if(storedTodos) setTodos(storedTodos);
   }, []);
 
-  function toggleTodos(theid){
+  function toggleToDoListCheckbox(id){
     const newTodos = [...todos];
-    const todo = newTodos.find(todo => todo.id === theid);
-    todo.complete = !todo.complete;
+    const element = newTodos.find(findCallback);
+    element.complete = !element.complete;
     setTodos(newTodos);
+
+    function findCallback(todo){
+      return todo.id === id;
+    }
   }
 
-  function addToDo(e){
+  function addToDo(){
     const text = textInput.current.value;
     if(text === "") return;
-    setTodos(prevTodos => {
-      return [...prevTodos, {id: uuidv4(), name: text, complete: false }]
-    })
+    setTodos(updateCallback)
     textInput.current.value = null;
+
+    function updateCallback(prevList){
+      return [...prevList, {id: uuidv4(), name: text, complete: false }];
+    }
   }
 
   function clearCompletedTodos(){
     const newTodos = [...todos];
-    setTodos(newTodos.filter(todo => !todo.complete));
+    setTodos(newTodos.filter(filterCallback));
+  }
+
+  function filterCallback(todo){
+    return !todo.complete;
   }
 
   return (<>
-    <ToDoList todos={todos} toggleTodo={toggleTodos}/>
+    <ToDoList todos={todos} toggleToDoListCheckbox={toggleToDoListCheckbox}/>
     <div><input ref={textInput} type={"text"}/>
       <button onClick={addToDo}>Add Todo</button></div>
     <div><button onClick={clearCompletedTodos}>Clear Complete</button></div>
-    <div>{todos.filter(todo => !todo.complete).length} left to do</div>
+    <div>{todos.filter(filterCallback).length} left to do</div>
   </>);
 }
 
