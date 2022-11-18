@@ -9,13 +9,13 @@ function App() {
   const textInput = useRef();
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
-  }, [todos]);
-
-  useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if(storedTodos) setTodos(storedTodos);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+  }, [todos]); //Updates our localstorage whenever todos is updated
 
   function toggleToDoListCheckbox(id){
     const newTodos = [...todos];
